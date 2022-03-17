@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table tbody td,
+table thead th {
+    padding: 10px 8px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table tbody tr td:nth-of-type(2) {
+    max-width: calc(300px - 17px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+table tbody tr:nth-of-type(2n){
+    background: #F3F9FF;
+}
+
+table thead th {
+    width: 83px;
+    background: rgba(0, 0, 0, 0.05);
+    font-weight: 700;
+}
+
+
+
+table thead th button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 0;
+}
+
+table thead th:first-child  {
+    width: 29px;
+    padding: 10px 0;
+}
+
+
+
+.price_btn {
+    position: relative;
+}
+
+.descending_icon {
+    position: absolute;
+    bottom: 2.8px;
+}
+
+.installment_check_block {
+    display: flex;
+    align-items: center;
+}
