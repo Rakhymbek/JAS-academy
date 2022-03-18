@@ -17,12 +17,13 @@ table thead th {
 
 table tbody tr td:nth-of-type(2) {
     max-width: calc(300px - 17px);
+    min-width: 300px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-table tbody tr:nth-of-type(2n){
+table tbody tr:nth-of-type(2n):not(.minimum){
     background: #F3F9FF;
 }
 
@@ -57,7 +58,19 @@ table thead th:first-child  {
     font-size: 11px;
 }
 
-.installment_check_block {
+.installment_check_block,
+.inStock_check_block {
     display: flex;
     align-items: center;
+}
+
+.input_group {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    margin-bottom: 8px;
+}
+
+.minimum {
+    background-color: #FFDDBD;
 }
