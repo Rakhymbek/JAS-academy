@@ -1,38 +1,63 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+table {
+    border-collapse: collapse;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+table tbody td,
+table thead th {
+    padding: 10px 8px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+table tbody tr td:nth-of-type(2) {
+    max-width: calc(300px - 17px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.App-link {
-  color: #61dafb;
+table tbody tr:nth-of-type(2n){
+    background: #F3F9FF;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+table thead th {
+    width: 83px;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+
+table thead th button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    padding: 0;
+}
+
+table thead th:first-child  {
+    width: 29px;
+    padding: 10px 0;
+}
+
+.price_btn {
+    position: relative;
+}
+
+.descending_icon {
+    position: absolute;
+    bottom: 2px;
+    font-size: 11px;
+}
+
+.installment_check_block {
+    display: flex;
+    align-items: center;
 }
