@@ -1,0 +1,69 @@
+import './App.css';
+import React, { useEffect, useState } from 'react';
+import { CommentBlock } from './components/CommentBlock';
+import { fetchTopTracks } from './fetchers/fetchTopTracks';
+import { Table } from './components/Table';
+
+
+
+function App() {
+  const [tracks, setTracks] = useState([]);
+
+
+  useEffect(() => {
+    fetchTopTracks().then((data) => setTracks(data.toptracks.track));
+  }, []);
+
+  
+  return (
+    <div className="App">
+      <Table tracks={tracks} />
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+
+
+/* const comments = [
+    {
+        text: 'Hot Stuff!',
+        created: '11:00 26.03.2022',
+        authorName: 'Vasya Pupkin',
+        authorImage: 'https://cdn.promodj.com/afs/ff76b55b804c8b9cbbed5a68b82609a111%3Aresize%3A440x732%3Asame%3A37cac4'
+    },
+    {
+        text: 'Hot Stuff 2!',
+        created: '11:00 26.03.2022',
+        authorName: 'Almas',
+        authorImage: 'https://cdn.promodj.com/afs/ff76b55b804c8b9cbbed5a68b82609a111%3Aresize%3A440x732%3Asame%3A37cac4'
+    },
+    {
+        text: 'Hot Stuff 3!',
+        created: '11:00 26.03.2022',
+        authorName: 'Vasya Pupkin',
+        authorImage: 'https://cdn.promodj.com/afs/ff76b55b804c8b9cbbed5a68b82609a111%3Aresize%3A440x732%3Asame%3A37cac4'
+    },
+] */
+
+/* 
+  useEffect(() => {
+    fetch('https://kdwed-f1dd2-default-rtdb.europe-west1.firebasedatabase.app/comments.json')
+      .then((response) => {
+    return response.json();
+      })
+      .then((data) => {
+    setComments(data);
+    return data;
+       });
+  }, []);
+   */ //Comments
+
+   /*  Comments Block
+        {comments.map((comment, index) =>
+            <CommentBlock comment={comment} key={index} />
+        )} */

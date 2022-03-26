@@ -1,0 +1,103 @@
+.App {
+  margin: 20px;
+  /* width: 600px; */
+}
+
+table {
+  width: 972.23px;
+}
+
+th {
+  text-transform: uppercase;
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0.4px;
+  color: #808080;
+  text-align: left;
+}
+
+td img {
+  width: 33.53px;
+  height: 33.53px;
+  border-radius: 5px;
+}
+
+.img_cell {
+  text-align: center;
+}
+
+.artist_name, 
+.album,
+.shazam_btn  {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0.4px;
+  color: #808080;
+}
+
+
+.shazam_btn {
+  background-color: transparent;
+  border: 1px solid #7E7E7E;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #808080;
+  padding: 4px 12px;
+}
+
+.shazam_btn:hover {
+  background-color: #afafaf;
+  color: #FFF;
+}
+
+.track_name {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: -0.2px;
+  color: #000000;
+}
+
+.comment_block {
+  border: 1px solid #D7D7D7;
+  border-radius: 4px;
+  max-width: 600px;
+  padding: 0 10px;
+  margin: 10px 0;
+}
+
+/* .avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 16px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 16px;
+}
+
+.date {
+  margin-left: auto;
+  font-size: 12px;
+  color: #909D9D;
+}
+
+.name {
+  font-size: 12px;
+  font-weight: bold;
+} */
