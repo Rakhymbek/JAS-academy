@@ -5,6 +5,7 @@ import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Movies } from './pages/Movies';
 import { Navbar } from './components/Navbar';
+import { MoviePage } from './pages/MoviePage';
 
 /* import { CommentBlock } from './components/CommentBlock';
 import { fetchTopTracks } from './fetchers/fetchTopTracks';
@@ -19,7 +20,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='about' element={<About/>} />
-        <Route path='movies' element={<Movies/>} />
+        <Route path='/movies' element={<Movies/>} />
+        <Route path='/movies/:id' element={<MoviePage/>} />
       </Routes>
     </div>
   );
