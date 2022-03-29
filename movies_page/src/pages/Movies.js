@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Rating from '@mui/material/Rating';
 import {useNavigate} from "react-router-dom";
 import { Button, Container, TextField } from "@mui/material";
@@ -10,26 +9,39 @@ import { Button, Container, TextField } from "@mui/material";
 export function Movies() {
     const [movies, setMovies] = useState([]);
     const navigate = useNavigate();
-    const [value, setValue] = useState('');
+    const [query, setQuery] = useState('');
 
     
 
-    useEffect(() => {
+    useEffect(setDefaultMovies, []);
+
+
+    function setDefaultMovies() {
         fetch(`https://api.themoviedb.org/3/discover/movie?api_key=d65708ab6862fb68c7b1f70252b5d91c&language=ru-RU&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`)
             .then((res) => res.json())
             .then((data) => {
                 setMovies(data.results);
             });
+    }
 
-    }, []);
+    function setMoviesByQuery() {
+        fetch(`https://api.themoviedb.org/3/search/movie?api_key=d65708ab6862fb68c7b1f70252b5d91c&language=ru-RU&page=1&include_adult=false&query=${query}`)
+        .then(res => res.json())
+        .then(data => setMovies(data.results));
+    }
+
+    function searchMovie() {
+        if(!query || query.length < 1) setDefaultMovies();
+        else setMoviesByQuery();
+    }
   
     return(
             <Container style={{maxWidth: 1300}}>
                 <div style={{display: 'flex', alignItems: 'center'}}>
                     <h1>Movies</h1>
                     <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'baseline'}} className="search_box">
-                        <TextField  id="standard-basic" label="Search" variant="standard" onChange={(e) => console.log(e.target.value)} />
-                        <Button className="search_btn">Search</Button>
+                        <TextField  id="standard-basic" label="Search" variant="standard" onChange={(e) => setQuery(e.target.value)} />
+                        <Button onClick={searchMovie} className="search_btn">Search</Button>
                     </div>
                 </div>
                 <ul className="movies_list">
@@ -43,7 +55,7 @@ export function Movies() {
                             backgroundSize: 'cover',
                         }}>
                             <CardContent sx={{marginTop: 36.5, padding: 3}}>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                <Typography sx={{ fontSize: 14, zIndex: 1 }} color="text.secondary" gutterBottom>
                                 <span className="movie_title_rus">
                                         {movie.title}
                                 </span>
