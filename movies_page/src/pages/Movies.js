@@ -4,35 +4,40 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import {useNavigate} from "react-router-dom";
-import { Button, Container, TextField } from "@mui/material";
+import { Button, Container, FormControl, InputLabel, MenuItem, Pagination, Select, TextField } from "@mui/material";
 
 export function Movies() {
     const [movies, setMovies] = useState([]);
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
+    const [page, setPage] = useState({
+        page: 1,
+        total_pages: 0,
+    });
+    const [sort, setSort] = useState('');
 
     
 
-    useEffect(setDefaultMovies, []);
+    useEffect(() => {
+        searchMovie();
+    }, [sort]);
 
+    const sortMoviesBy = (event) => {
+        setSort(event.target.value);
+      };
 
-    function setDefaultMovies() {
-        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=d65708ab6862fb68c7b1f70252b5d91c&language=ru-RU&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`)
-            .then((res) => res.json())
-            .then((data) => {
-                setMovies(data.results);
-            });
-    }
-
-    function setMoviesByQuery() {
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=d65708ab6862fb68c7b1f70252b5d91c&language=ru-RU&page=1&include_adult=false&query=${query}`)
-        .then(res => res.json())
-        .then(data => setMovies(data.results));
-    }
-
-    function searchMovie() {
-        if(!query || query.length < 1) setDefaultMovies();
-        else setMoviesByQuery();
+    function searchMovie(page = 1) {
+        let method = 'discover';
+        if(query && query.length > 0) method = 'search';
+        fetch(`https://api.themoviedb.org/3/${method}/movie?api_key=d65708ab6862fb68c7b1f70252b5d91c&language=ru-RU&sort_by=${sort}.desc&include_adult=false&include_video=true&page=${page}&with_watch_monetization_types=flatrate&query=${query}`)
+        .then((res) => res.json())
+        .then(data => {
+            setMovies(data.results)
+            setPage({
+                page: data.page,
+                total_pages: Math.min(data.total_pages, 500)
+            })
+        })
     }
   
     return(
@@ -40,6 +45,20 @@ export function Movies() {
                 <div style={{display: 'flex', alignItems: 'center'}}>
                     <h1>Movies</h1>
                     <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'baseline'}} className="search_box">
+                    <FormControl variant="standard" fullWidth style={{marginRight: 20}}>
+                        <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={sort}
+                            label="Sort by"
+                            onChange={sortMoviesBy}
+                        >
+                            <MenuItem value={'popularity'}>Popularity</MenuItem>
+                            <MenuItem value={'release_date'}>Release-date</MenuItem>
+                            <MenuItem value={'vote_average'}>Vote-average</MenuItem>
+                        </Select>
+                    </FormControl>
                         <TextField  id="standard-basic" label="Search" variant="standard" onChange={(e) => setQuery(e.target.value)} />
                         <Button onClick={searchMovie} className="search_btn">Search</Button>
                     </div>
@@ -75,6 +94,7 @@ export function Movies() {
                     </Card>
                     ))}
                 </ul>
+                <Pagination count={page.total_pages} page={page.page} onChange={(e, value) => searchMovie(value)} variant="outlined" shape="rounded" />
             </Container>
         
     );
