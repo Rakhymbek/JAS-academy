@@ -40,7 +40,7 @@ export function Movies() {
             })
         })
     }
-  
+    console.log(query && query.length > 0);
     return(
             <Container style={{maxWidth: 1300}}>
                 <div style={{display: 'flex', alignItems: 'center'}}>
@@ -53,12 +53,12 @@ export function Movies() {
                             id="demo-simple-select"
                             value={sort}
                             label="Sort by"
-                            disabled={query && query.length > 0}
+                            disabled={!!query && query.length > 0}
                             onChange={sortMoviesBy}
                         >
                             <MenuItem value={'popularity'}>Popularity</MenuItem>
                             <MenuItem value={'release_date'}>Release-date</MenuItem>
-                            <MenuItem value={'vote_average'}>Vote-average</MenuItem>
+                            <MenuItem value={'vote_average'}>Rating</MenuItem>
                         </Select>
                     </FormControl>
                         <TextField  id="standard-basic" label="Search" variant="standard" onChange={(e) => setQuery(e.target.value)} />
@@ -96,7 +96,7 @@ export function Movies() {
                     </Card>
                     ))}
                 </ul>
-                <Pagination count={page.total_pages} page={page.page} onChange={(e, value) => searchMovie({page: value})} variant="outlined" shape="rounded" />
+                <Pagination count={page.total_pages} page={page.page} onChange={(e, page) => searchMovie({page})} variant="outlined" shape="rounded" />
             </Container>
         
     );
