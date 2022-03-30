@@ -14,22 +14,23 @@ export function Movies() {
         page: 1,
         total_pages: 0,
     });
-    const [sort, setSort] = useState('');
+    const [sort, setSort] = useState('popularity');
 
     
 
     useEffect(() => {
         searchMovie();
-    }, [sort]);
+    }, []);
 
     const sortMoviesBy = (event) => {
         setSort(event.target.value);
+        searchMovie({ sortBy: event.target.value});
       };
 
-    function searchMovie(page = 1) {
+    function searchMovie({ page = 1, sortBy = sort } = {}) {
         let method = 'discover';
         if(query && query.length > 0) method = 'search';
-        fetch(`https://api.themoviedb.org/3/${method}/movie?api_key=d65708ab6862fb68c7b1f70252b5d91c&language=ru-RU&sort_by=${sort}.desc&include_adult=false&include_video=true&page=${page}&with_watch_monetization_types=flatrate&query=${query}`)
+        fetch(`https://api.themoviedb.org/3/${method}/movie?api_key=d65708ab6862fb68c7b1f70252b5d91c&language=ru-RU&sort_by=${sortBy}.desc&include_adult=false&include_video=true&page=${page}&with_watch_monetization_types=flatrate&query=${query}`)
         .then((res) => res.json())
         .then(data => {
             setMovies(data.results)
@@ -52,6 +53,7 @@ export function Movies() {
                             id="demo-simple-select"
                             value={sort}
                             label="Sort by"
+                            disabled={query && query.length > 0}
                             onChange={sortMoviesBy}
                         >
                             <MenuItem value={'popularity'}>Popularity</MenuItem>
@@ -94,7 +96,7 @@ export function Movies() {
                     </Card>
                     ))}
                 </ul>
-                <Pagination count={page.total_pages} page={page.page} onChange={(e, value) => searchMovie(value)} variant="outlined" shape="rounded" />
+                <Pagination count={page.total_pages} page={page.page} onChange={(e, value) => searchMovie({page: value})} variant="outlined" shape="rounded" />
             </Container>
         
     );
