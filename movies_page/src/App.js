@@ -6,7 +6,7 @@ import { About } from "./pages/About";
 import { Movies } from "./pages/Movies";
 import { Navbar } from "./components/Navbar";
 import { MoviePage } from "./pages/MoviePage";
-import { RicAndMorty } from "./pages/RicAndMorty";
+import { RickAndMorty } from "./pages/RickAndMorty";
 
 /* import { CommentBlock } from './components/CommentBlock';
 import { fetchTopTracks } from './fetchers/fetchTopTracks';
@@ -21,7 +21,7 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/movies/:id" element={<MoviePage />} />
-        <Route path="/RicAndMorty" element={<RicAndMorty />} />
+        <Route path="/RickAndMorty" element={<RickAndMorty />} />
       </Routes>
     </div>
   );

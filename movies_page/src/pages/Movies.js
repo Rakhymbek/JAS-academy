@@ -49,6 +49,7 @@ export function Movies() {
         });
       });
   }
+  
   return (
     <Container style={{ maxWidth: 1300 }}>
       <div style={{ display: "flex", alignItems: "center" }}>

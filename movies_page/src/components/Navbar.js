@@ -101,7 +101,7 @@ export const Navbar = () => {
               <Link to="Movies">Movies</Link>
             </Button>
             <Button sx={{ my: 2, color: "white", display: "block" }}>
-              <Link to="RicAndMorty">RicAndMorty</Link>
+              <Link to="RickAndMorty">RickAndMorty</Link>
             </Button>
           </Box>
 
