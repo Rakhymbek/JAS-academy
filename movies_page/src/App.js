@@ -1,34 +1,33 @@
-import './App.css';
-import React, { useEffect, useState } from 'react';
-import { Route, Routes, Link } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { About } from './pages/About';
-import { Movies } from './pages/Movies';
-import { Navbar } from './components/Navbar';
-import { MoviePage } from './pages/MoviePage';
+import "./App.css";
+import React, { useEffect, useState } from "react";
+import { Route, Routes, Link } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { About } from "./pages/About";
+import { Movies } from "./pages/Movies";
+import { Navbar } from "./components/Navbar";
+import { MoviePage } from "./pages/MoviePage";
+import { RicAndMorty } from "./pages/RicAndMorty";
 
 /* import { CommentBlock } from './components/CommentBlock';
 import { fetchTopTracks } from './fetchers/fetchTopTracks';
 import { Table } from './components/Table'; */
-
-
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='about' element={<About/>} />
-        <Route path='/movies' element={<Movies/>} />
-        <Route path='/movies/:id' element={<MoviePage/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/movies/:id" element={<MoviePage />} />
+        <Route path="/RicAndMorty" element={<RicAndMorty />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
-
 
 /* const [tracks, setTracks] = useState([]);
 
@@ -74,7 +73,7 @@ export default App;
   }, []);
    */ //Comments
 
-   /*  Comments Block
+/*  Comments Block
         {comments.map((comment, index) =>
             <CommentBlock comment={comment} key={index} />
         )} */
