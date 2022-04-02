@@ -1,9 +1,15 @@
 import {
+  Button,
   Card,
   CardContent,
   CardMedia,
   Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Pagination,
+  Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -15,26 +21,41 @@ export function RickAndMorty() {
   const [episodes, setEpisodes] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   let [page, setPage] = useState(1);
+  let [episodePage, setEpisodePage] = useState(1);
+  const [query, setQuery] = useState("");
+  const [sort, setSort] = useState("");
 
   useEffect(() => {
     getAllCharacters();
   }, [page]);
 
   useEffect(() => {
-    fetch(`https://rickandmortyapi.com/api/episode/?page=1`)
-      .then((res) => res.json())
-      .then((data) => setEpisodes(data.results));
+    getAllEpisodes();
   }, []);
 
+  function getAllEpisodes() {
+    fetch(`https://rickandmortyapi.com/api/episode/?page=${episodePage}`)
+      .then((res) => res.json())
+      .then((data) => setEpisodes(data.results));
+  }
 
-
-  function getAllCharacters() {
-    fetch(`https://rickandmortyapi.com/api/character/?page=${page}`)
+  function getAllCharacters({page = 1, sortBy = sort} = {}) {
+    fetch(
+      `https://rickandmortyapi.com/api/character/?page=${page}&name=${query}&status=${sortBy}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setCharacters(data.results);
-        setTotalPages(Math.min(data.info.pages, 50));
+        setTotalPages(data.info.pages);
+      })
+      .catch((error) => {
+        console.log("There is nothing here");
       });
+  }
+
+  function sortCharacterByStatus(e) {
+    setSort(e.target.value);
+    getAllCharacters({ sortBy: e.target.value });
   }
 
   return (
@@ -53,95 +74,146 @@ export function RickAndMorty() {
           >
             The Rick and Morty
           </h1>
-          <ul className="characters_list">
-            {characters.map((character, index) => (
-              <Card
-                sx={{
-                  display: "flex",
-                  maxWidth: 600,
-                  height: 220,
-                  flexGrow: 1,
-                }}
-                key={index}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{ width: 230 }}
-                  image={character.image}
-                  alt="Live from space album cover"
-                />
-                <Box
-                  sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <h1>Characters</h1>
+            <div
+              style={{
+                marginLeft: "auto",
+                display: "flex",
+                alignItems: "baseline",
+              }}
+              className="search_box"
+            >
+              {
+                <FormControl
+                  variant="standard"
+                  fullWidth
+                  style={{ marginRight: 20 }}
                 >
-                  <CardContent
-                    className="character_card_content"
+                  <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={sort}
+                    label="Sort by"
+                    onChange={sortCharacterByStatus}
+                  >
+                    <MenuItem value={"alive"}>Alive</MenuItem>
+                    <MenuItem value={"dead"}>Dead</MenuItem>
+                    <MenuItem value={"unknown"}>unknown</MenuItem>
+                  </Select>
+                </FormControl>
+              }
+              <TextField
+                id="standard-basic"
+                label="Search"
+                variant="standard"
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <Button onClick={getAllCharacters} className="search_btn">
+                Search
+              </Button>
+            </div>
+          </div>
+          <ul className="characters_list">
+            {!characters ? (
+              <h1 style={{ fontSize: 80 }}>There is nothing here</h1>
+            ) : (
+              characters.map((character, index) => (
+                <Card
+                  sx={{
+                    display: "flex",
+                    maxWidth: 600,
+                    height: 220,
+                    flexGrow: 1,
+                  }}
+                  key={index}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{ width: 230 }}
+                    image={character.image}
+                    alt="Live from space album cover"
+                  />
+                  <Box
                     sx={{
-                      flex: "1 0 auto",
-                      backgroundColor: "rgb(60, 62, 68)",
+                      display: "flex",
+                      flexDirection: "column",
+                      flexGrow: 1,
                     }}
                   >
-                    <Typography component="div" variant="h5">
-                      <Link to={"/movies/"}>
-                        <h2 className="character_title">{character.name}</h2>
-                      </Link>
-                    </Typography>
-                    <Typography
-                      fontFamily="Segoe UI"
-                      color="white"
-                      component="div"
+                    <CardContent
+                      className="character_card_content"
+                      sx={{
+                        flex: "1 0 auto",
+                        backgroundColor: "rgb(60, 62, 68)",
+                      }}
                     >
-                      <span className="character_status">
-                        <span
-                          className="status_icon"
-                          style={{
-                            backgroundColor:
-                              character.status === "Alive"
-                                ? "rgb(85, 204, 68)"
-                                : character.status === "Dead"
-                                ? "rgb(214, 61, 46)"
-                                : "rgb(158, 158, 158)",
-                          }}
-                        ></span>
-                        {character.status} - {character.species}
-                      </span>
+                      <Typography component="div" variant="h5">
+                        <Link to={"/movies/"}>
+                          <h2 className="character_title">{character.name}</h2>
+                        </Link>
+                      </Typography>
                       <Typography
                         fontFamily="Segoe UI"
-                        fontWeight={500}
-                        color="rgb(158, 158, 158)"
+                        color="white"
                         component="div"
-                        marginTop={2}
                       >
-                        <span>Last known location:</span>
-                        <h3 className="character_location">
-                          {character.location.name}
-                        </h3>
-                        <div style={{ marginTop: 16 }}>
-                          <span>First seen in:</span>
-                          {episodes.map((ep, index) => (
-                            <h3 className="character_location" key={index}>
-                              {character.id === ep.id ? ep.name : ""}
+                        <span className="character_status">
+                          <span
+                            className="status_icon"
+                            style={{
+                              backgroundColor:
+                                character.status === "Alive"
+                                  ? "rgb(85, 204, 68)"
+                                  : character.status === "Dead"
+                                  ? "rgb(214, 61, 46)"
+                                  : "rgb(158, 158, 158)",
+                            }}
+                          ></span>
+                          {character.status} - {character.species}
+                        </span>
+                        <Typography
+                          fontFamily="Segoe UI"
+                          fontWeight={500}
+                          color="rgb(158, 158, 158)"
+                          component="div"
+                          marginTop={2}
+                        >
+                          <span>Last known location:</span>
+                          <h3 className="character_location">
+                            {character.location.name}
+                          </h3>
+                          <div style={{ marginTop: 16 }}>
+                            <span>First seen in:</span>
+                            <h3 className="character_location">
+                              episode - {character.episode[0].match(/\d+/)}
                             </h3>
-                          ))}
-                        </div>
+                          </div>
+                        </Typography>
                       </Typography>
-                    </Typography>
-                  </CardContent>
-                </Box>
-              </Card>
-            ))}
+                    </CardContent>
+                  </Box>
+                </Card>
+              ))
+            )}
           </ul>
         </div>
-        <Pagination
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          count={totalPages}
-          page={page}
-          shape="rounded"
-          onChange={(e, page) => setPage(page)}
-        />
+        {!characters ? (
+          ""
+        ) : (
+          <Pagination
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            count={totalPages}
+            page={page}
+            shape="rounded"
+            onChange={(e, page) => setPage(page)}
+          />
+        )}
       </Container>
     </Container>
   );
