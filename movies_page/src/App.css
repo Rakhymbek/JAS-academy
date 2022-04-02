@@ -121,6 +121,12 @@ a {
   padding: 0;
   justify-content: center;
   font-family: "Segoe UI";
+  
+}
+
+.characters_card:hover {
+  transform: scale(1.05, 1.05);
+  transition: 0.3s ease;
 }
 
 .character_card_content {
@@ -137,6 +143,8 @@ a {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 27px;
   font-weight: 800;
+  color: #fff;
+  cursor: pointer;
 }
 
 .character_title:hover {

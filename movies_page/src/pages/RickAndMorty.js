@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function RickAndMorty() {
   const [characters, setCharacters] = useState([]);
@@ -24,6 +24,7 @@ export function RickAndMorty() {
   let [episodePage, setEpisodePage] = useState(1);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllCharacters();
@@ -39,7 +40,7 @@ export function RickAndMorty() {
       .then((data) => setEpisodes(data.results));
   }
 
-  function getAllCharacters({page = 1, sortBy = sort} = {}) {
+  function getAllCharacters({ page = 1, sortBy = sort } = {}) {
     fetch(
       `https://rickandmortyapi.com/api/character/?page=${page}&name=${query}&status=${sortBy}`
     )
@@ -88,14 +89,16 @@ export function RickAndMorty() {
                 <FormControl
                   variant="standard"
                   fullWidth
-                  style={{ marginRight: 20 }}
+                  style={{ marginRight: 20, minWidth: 90 }}
                 >
-                  <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+                  <InputLabel id="demo-simple-select-label">
+                    Sort by status
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={sort}
-                    label="Sort by"
+                    label="Sort by status"
                     onChange={sortCharacterByStatus}
                   >
                     <MenuItem value={"alive"}>Alive</MenuItem>
@@ -126,8 +129,10 @@ export function RickAndMorty() {
                     maxWidth: 600,
                     height: 220,
                     flexGrow: 1,
+                    boxShadow: 3,
                   }}
                   key={index}
+                  className="characters_card"
                 >
                   <CardMedia
                     component="img"
@@ -150,9 +155,14 @@ export function RickAndMorty() {
                       }}
                     >
                       <Typography component="div" variant="h5">
-                        <Link to={"/movies/"}>
-                          <h2 className="character_title">{character.name}</h2>
-                        </Link>
+                        <h2
+                          onClick={() =>
+                            navigate("/RickAndMorty/" + character.id)
+                          }
+                          className="character_title"
+                        >
+                          {character.name}
+                        </h2>
                       </Typography>
                       <Typography
                         fontFamily="Segoe UI"
