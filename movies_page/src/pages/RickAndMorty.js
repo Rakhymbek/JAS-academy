@@ -32,17 +32,22 @@ export function RickAndMorty() {
 
   useEffect(() => {
     getAllEpisodes();
-  }, []);
+  }, [episodePage]);
 
   function getAllEpisodes() {
     fetch(`https://rickandmortyapi.com/api/episode/?page=${episodePage}`)
       .then((res) => res.json())
-      .then((data) => setEpisodes(data.results));
+      .then((data) => {
+        setEpisodes((prev) => [...prev, ...data.results]);
+        if (episodePage < data.info.pages) {
+          setEpisodePage(episodePage + 1);
+        }
+      });
   }
 
-  function getAllCharacters({ page = 1, sortBy = sort } = {}) {
+  function getAllCharacters({ pageInfo = page, sortBy = sort } = {}) {
     fetch(
-      `https://rickandmortyapi.com/api/character/?page=${page}&name=${query}&status=${sortBy}`
+      `https://rickandmortyapi.com/api/character/?page=${pageInfo}&name=${query}&status=${sortBy}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -57,6 +62,7 @@ export function RickAndMorty() {
   function sortCharacterByStatus(e) {
     setSort(e.target.value);
     getAllCharacters({ sortBy: e.target.value });
+    setPage(1);
   }
 
   return (
@@ -197,7 +203,11 @@ export function RickAndMorty() {
                           <div style={{ marginTop: 16 }}>
                             <span>First seen in:</span>
                             <h3 className="character_location">
-                              episode - {character.episode[0].match(/\d+/)}
+                              {/* episode - {character.episode[0].match(/\d+/)} */}
+                              {episodes.map((ep, index) => {
+                                if (ep.url === character.episode[0])
+                                  return ep.name;
+                              })}
                             </h3>
                           </div>
                         </Typography>
