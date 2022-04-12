@@ -10,11 +10,11 @@ export function TodoItem({ todo, onRemove }) {
           justifyContent: "space-between",
         }}
       >
-        <span>{todo}</span>
+        <span>{todo.text}</span>
         <Button onClick={onRemove}>Delete</Button>
       </div>
       <Typography sx={{ fontSize: 14, color: "#797979" }}>
-        created {new Date().toLocaleString().slice(0, -3)}
+        created {todo.data}
       </Typography>
     </li>
   );

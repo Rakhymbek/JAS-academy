@@ -7,7 +7,7 @@ export function TodoForm({ onCreate }) {
   function handleKeyDown(e) {
     if(e.key === 'Enter') {
         if(text) {
-            onCreate(text);
+            onCreate({text, data: new Date().toLocaleString().slice(0, -3)});
             setText('');
         }
     }
@@ -31,7 +31,7 @@ export function TodoForm({ onCreate }) {
           size="large"
           onClick={() => {
             if(text) {
-                onCreate(text);
+                onCreate({text, data: new Date().toLocaleString().slice(0, -3)});
                 setText('');
             }
           }}
