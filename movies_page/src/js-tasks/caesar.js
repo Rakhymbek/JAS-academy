@@ -7,11 +7,11 @@ function ceasar(str, shift) {
     for(let i = 0; i < str.length; i++) {
         let letterIndex = alphabetLowerCase.indexOf(str[i]);
         let sum = letterIndex + shift;
-        if(sum >= 25) sum = parseInt(sum % 26);
+        if(sum >= 26) sum = parseInt(sum % 26);
         while (sum < 0) sum += 26;
 
         if(alphabetLowerCase.includes(str[i])) {
-            if(letterIndex >= 0 && letterIndex < 25 && shift >= 0) {
+            if(letterIndex >= 0 && letterIndex < 26 && shift >= 0) {
                 result += alphabetLowerCase[sum];
             }else if(letterIndex >= 0 && shift < 0) {
                 result += alphabetLowerCase[(sum)%26];
@@ -19,10 +19,10 @@ function ceasar(str, shift) {
         }else if(alphabetUpperCase.includes(str[i])) {
             letterIndex = alphabetUpperCase.indexOf(str[i]);
             sum = letterIndex + shift;
-            if(sum >= 25) sum = parseInt(sum % 26);
+            if(sum >= 26) sum = parseInt(sum % 26);
             while (sum < 0) sum += 26;
 
-            if(letterIndex >= 0 && letterIndex < 25 && shift >= 0) {
+            if(letterIndex >= 0 && letterIndex < 26 && shift >= 0) {
                 result += alphabetUpperCase[sum];
             }else if(letterIndex >= 0 && shift < 0) {
                 result += alphabetUpperCase[(sum)%26];
@@ -35,4 +35,4 @@ function ceasar(str, shift) {
     return result;
 }
 
-console.log(ceasar('How are you doing?', -110));
+console.log(ceasar('middle-Outz', 2));
