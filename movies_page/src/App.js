@@ -8,6 +8,7 @@ import { Navbar } from "./components/Navbar";
 import { MoviePage } from "./pages/MoviePage";
 import { RickAndMorty } from "./pages/RickAndMorty";
 import { CharacterPage } from "./pages/CharacterPage";
+import { Counter } from "./components/Counter";
 
 /* import { CommentBlock } from './components/CommentBlock';
 import { fetchTopTracks } from './fetchers/fetchTopTracks';
@@ -24,6 +25,7 @@ function App() {
         <Route path="/movies/:id" element={<MoviePage />} />
         <Route path="/RickAndMorty" element={<RickAndMorty />} />
         <Route path="/RickAndMorty/:id" element={<CharacterPage />} />
+        <Route path="/Counter" element={<Counter />} />
       </Routes>
     </div>
   );
