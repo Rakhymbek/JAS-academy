@@ -1,30 +1,86 @@
 import { Container } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TodoForm } from "../components/TodoForm";
 import { TodoList } from "../components/TodoList";
+import { useDispatch, useSelector } from "react-redux";
 
 export function ToDo() {
-  const [todos, setTodos] = useState(JSON.parse(localStorage.getItem("todos")) || []);
+  const todos = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
 
+  const handleCreate = useCallback(
+    (todo) => {
+      dispatch({ type: "todos/add", payload: todo });
+    },
+    [dispatch]
+  );
 
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+  const handleRemove = useCallback(
+    (index) => {
+      dispatch({
+        type: "todos/remove",
+        index,
+      });
+    },
+    [dispatch]
+  );
 
-  function handleCreate(text) {
-    setTodos([...todos, text]);
-  }
-
-  function handleRemove(index) {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
-  }
+  const handleDone = useCallback(
+    (index) => {
+      dispatch({
+        type: "todos/doneChange",
+        index,
+      });
+    },
+    [dispatch]
+  );
 
   return (
     <Container sx={{ paddingTop: 2 }}>
       <TodoForm onCreate={handleCreate} />
-      <TodoList todos={todos} onRemove={handleRemove} />
+      <div style={{display: "flex", justifyContent: 'center', gap: 30}}>
+        <TodoList todos={todos.filter(todo => !todo.done)} onRemove={handleRemove} onDone={handleDone} />
+        <TodoList
+          todos={todos.filter((todo) => todo.done)}
+          onRemove={handleRemove}
+          onDone={handleDone}
+        />
+      </div>
     </Container>
   );
 }
+
+
+
+/* const todos = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
+  const handleCreate = useCallback(
+    (todo) => {
+      dispatch({ type: "todos/add", payload: todo });
+    },
+    [dispatch]
+  );
+
+  const handleRemove = useCallback(
+    (index) => {
+      dispatch({
+        type: "todos/remove",
+        payload: index,
+      });
+    },
+    [dispatch]
+  );
+
+  const handleDone = useCallback(
+    (index) => {
+      dispatch({
+        type: "todos/doneChange",
+        payload: index,
+      });
+    },
+    [dispatch]
+  ); */

@@ -1,17 +1,23 @@
 import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 export function TodoForm({ onCreate }) {
   const [text, setText] = useState("");
 
-  function handleKeyDown(e) {
+  const handleKeyDown = useCallback(e => {
     if(e.key === 'Enter') {
-        if(text) {
-            onCreate({text, data: new Date().toLocaleString().slice(0, -3)});
+        if(text.trim().length !== 0) {
+            onCreate({text, data: new Date().toLocaleString().slice(0, -3), done: false, id: Date.now()});
             setText('');
         }
     }
-  }
+  }, [text, onCreate]);
+  
+
+  const isDisabled = useMemo(() => {
+    return text.trim().length === 0;
+  }, [text]);
+
 
   return (
     <div>
@@ -29,9 +35,10 @@ export function TodoForm({ onCreate }) {
         <Button
           variant="contained"
           size="large"
+          disabled={isDisabled}
           onClick={() => {
-            if(text) {
-                onCreate({text, data: new Date().toLocaleString().slice(0, -3)});
+            if(text.trim().length !== 0) {
+                onCreate({text, data: new Date().toLocaleString().slice(0, -3), done: false, id: Date.now()});
                 setText('');
             }
           }}
