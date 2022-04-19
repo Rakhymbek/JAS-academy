@@ -14,20 +14,36 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 export function Movies() {
-  const [movies, setMovies] = useState([]);
+  const movies = useSelector((state) => state.movies);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState({
-    page: 1,
-    total_pages: 0,
-  });
-  const [sort, setSort] = useState("popularity");
+  const query = useSelector((state) => state.query);
+  const page = useSelector((state) => state.page);
+  const sort = useSelector((state) => state.sort);
 
   useEffect(() => {
     searchMovie();
   }, []);
+
+  function setMovies(movies) {
+    dispatch({ type: "movies/set", payload: movies });
+  }
+
+  function setQuery(query) {
+    dispatch({ type: "query/set", payload: query });
+  }
+
+  function setPage(page) {
+    dispatch({ type: "page/set", payload: page });
+  }
+
+  function setSort(sort) {
+    dispatch({ type: "sort/set", payload: sort });
+  }
+
 
   const sortMoviesBy = (event) => {
     setSort(event.target.value);
@@ -49,7 +65,7 @@ export function Movies() {
         });
       });
   }
-  
+
   return (
     <Container style={{ maxWidth: 1300 }}>
       <div style={{ display: "flex", alignItems: "center" }}>

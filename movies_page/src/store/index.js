@@ -2,6 +2,13 @@ import { createStore } from "redux";
 
 const initState = {
   todos: JSON.parse(localStorage.getItem("todos")) || [],
+  movies: [],
+  query: "",
+  page: {
+    page: 1,
+    total_pages: 0,
+  },
+  sort: "popularity",
 };
 const TODOS_ADD = "todos/add";
 const TODOS_REMOVE = "todos/remove";
@@ -28,6 +35,18 @@ const reducer = function (state = initState, action) {
         state.todos.push(doneElement);
         newState.todos = [...state.todos];
       }
+      break;
+    case "movies/set":
+      newState.movies = action.payload;
+      break;
+    case "query/set":
+      newState.query = action.payload;
+      break;
+    case "page/set":
+      newState.page = action.payload;
+      break;
+    case "sort/set":
+      newState.sort = action.payload;
       break;
     default:
       return state;
