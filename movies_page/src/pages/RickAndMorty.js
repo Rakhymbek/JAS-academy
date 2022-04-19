@@ -13,56 +13,56 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { fetchCharacters } from "../store/actions/fetchCharacters";
+import { fetchEpisodes } from "../store/actions/fetchEpisodes";
+import { SET_QUERY, SET_SORT } from "../store/reducers/charactersReducer";
 
 export function RickAndMorty() {
-  const [characters, setCharacters] = useState([]);
-  const [episodes, setEpisodes] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
-  let [page, setPage] = useState(1);
-  let [episodePage, setEpisodePage] = useState(1);
-  const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("");
+  const characters = useSelector((state) => state.charactersReducer.characters);
+  const episodes = useSelector((state) => state.charactersReducer.episodes);
+  const dispatch = useDispatch();
+  const totalPages = useSelector((state) => state.charactersReducer.totalPages);
+  let page = useSelector((state) => state.charactersReducer.page);
+  let episodePage = useSelector((state) => state.charactersReducer.episodePage);
+  const query = useSelector((state) => state.charactersReducer.query);
+  const sort = useSelector((state) => state.charactersReducer.sort);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllCharacters();
-  }, [page]);
+    dispatch(fetchCharacters());
+  }, [dispatch]);
 
   useEffect(() => {
-    getAllEpisodes();
-  }, [episodePage]);
+    dispatch(fetchEpisodes());
+  }, [dispatch, episodePage]);
 
-  function getAllEpisodes() {
-    fetch(`https://rickandmortyapi.com/api/episode/?page=${episodePage}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setEpisodes((prev) => [...prev, ...data.results]);
-        if (episodePage < data.info.pages) {
-          setEpisodePage(episodePage + 1);
-        }
-      });
-  }
+  const setQuery = useCallback(
+    (payload) => {
+      dispatch({ type: SET_QUERY, payload });
+    },
+    [dispatch]
+  );
 
-  function getAllCharacters({ pageInfo = page, sortBy = sort } = {}) {
-    fetch(
-      `https://rickandmortyapi.com/api/character/?page=${pageInfo}&name=${query}&status=${sortBy}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setCharacters(data.results);
-        setTotalPages(data.info.pages);
-      })
-      .catch((error) => {
-        console.log("There is nothing here");
-      });
-  }
+  const setSort = useCallback(
+    (payload) => {
+      dispatch({ type: SET_SORT, payload });
+    },
+    [dispatch]
+  );
+
+  const getAllCharacters = useCallback(
+    ({ pageInfo = 1, sortBy = sort } = {}) => {
+      dispatch(fetchCharacters({ pageInfo, query, sortBy }));
+    },
+    [dispatch, query, sort]
+  );
 
   function sortCharacterByStatus(e) {
     setSort(e.target.value);
-    getAllCharacters({ sortBy: e.target.value });
-    setPage(1);
+    getAllCharacters({ sortBy: e.target.value, pageInfo: 1 });
   }
 
   return (
@@ -231,7 +231,7 @@ export function RickAndMorty() {
             count={totalPages}
             page={page}
             shape="rounded"
-            onChange={(e, page) => setPage(page)}
+            onChange={(e, page) => getAllCharacters({ pageInfo: page })}
           />
         )}
       </Container>
