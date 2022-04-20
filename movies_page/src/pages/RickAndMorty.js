@@ -64,7 +64,7 @@ export function RickAndMorty() {
     setSort(e.target.value);
     getAllCharacters({ sortBy: e.target.value, pageInfo: 1 });
   }
-
+console.log(getAllCharacters);
   return (
     <Container style={{ padding: 40 }} maxWidth="xl">
       <Container style={{ maxWidth: 1280 }}>

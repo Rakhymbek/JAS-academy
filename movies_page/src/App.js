@@ -10,6 +10,7 @@ import { RickAndMorty } from "./pages/RickAndMorty";
 import { CharacterPage } from "./pages/CharacterPage";
 import { Counter } from "./components/Counter";
 import { ToDo } from "./pages/ToDo";
+import { ShopPage } from "./pages/ShopPage";
 
 /* import { CommentBlock } from './components/CommentBlock';
 import { fetchTopTracks } from './fetchers/fetchTopTracks';
@@ -28,6 +29,7 @@ function App() {
         <Route path="/RickAndMorty/:id" element={<CharacterPage />} />
         <Route path="/Counter" element={<Counter />} />
         <Route path="/ToDo" element={<ToDo />} />
+        <Route path="/ShopPage" element={<ShopPage />} />
       </Routes>
     </div>
   );

@@ -4,12 +4,14 @@ import { todos } from "./reducers/todos";
 import { charactersReducer } from "./reducers/charactersReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
+import { shop } from "./reducers/shop";
 
 export const store = createStore(
   combineReducers({
     movies,
     todos,
-    charactersReducer
+    charactersReducer,
+    shop,
   }),
   composeWithDevTools(applyMiddleware(thunk))
 );
