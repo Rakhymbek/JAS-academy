@@ -1,33 +1,44 @@
-import {Container, Grid} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {useCallback, useEffect} from "react";
-import {addToBasket, fetchProducts, removeFromBasket} from "../store/actions/shopActions";
-import {ProductBlock} from "../components/ProductBlock";
-import {Basket} from "../components/Basket";
+import { Button, Container, Grid,} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
+import {
+  addToBasket,
+  fetchProducts,
+  removeFromBasket,
+} from "../store/actions/shopActions";
+import { ProductBlock } from "../components/ProductBlock";
+import { Basket } from "../components/Basket";
+
 
 export function ShopPage() {
-    const dispatch = useDispatch()
-    const products = useSelector((state) => state.shop.products)
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.shop.products);
 
-    useEffect(() => {
-        dispatch(fetchProducts())
-    }, [dispatch])
 
-    const handleAddToBasket = useCallback((product) => {
-        dispatch(addToBasket(product))
-    }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-    
-    return (
-        <Container>
-            <Grid container spacing={2}>
-                {products.map((product) => (
-                    <Grid item xs={3} key={product.id}>
-                        <ProductBlock product={product}  onAddToBasket={() => handleAddToBasket(product)} />
-                    </Grid>
-                ))}
-            </Grid>
-            <Basket />
-        </Container>
-    )
+  const handleAddToBasket = useCallback(
+    (product) => {
+      dispatch(addToBasket(product));
+    },
+    [dispatch]
+  );
+
+  return (
+    <Container>
+      <Basket onAddToBasket={handleAddToBasket} />
+      <Grid container spacing={2}>
+        {products.map((product) => (
+          <Grid item lg={3} xs={12} md={4} sm={6} key={product.id}>
+            <ProductBlock
+              product={product}
+              onAddToBasket={() => handleAddToBasket(product)}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  );
 }

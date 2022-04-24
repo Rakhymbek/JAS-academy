@@ -29,7 +29,6 @@ export function shop(state = initState, action) {
       }
       break;
     case REMOVE_FROM_BASKET:
-    console.log(newState.basket);
      newState.basket.map((item) => {
          console.log(item.count);
         if (item.product.id === action.payload) {

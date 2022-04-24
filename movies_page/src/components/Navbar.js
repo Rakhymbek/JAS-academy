@@ -12,7 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link, useNavigate } from "react-router-dom";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["Movies", "RickAndMorty", "ToDo", "ShopPage"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export const Navbar = () => {
@@ -56,7 +56,9 @@ export const Navbar = () => {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
-            ></IconButton>
+            >
+              ☰
+            </IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -77,7 +79,7 @@ export const Navbar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                    <Link style={{color: '#000'}} to={page}>{page}</Link>
                 </MenuItem>
               ))}
             </Menu>

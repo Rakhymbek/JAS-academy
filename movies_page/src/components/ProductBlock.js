@@ -2,6 +2,7 @@ import {Button, styled} from "@mui/material";
 
 const Box = styled('div')`
   padding: 16px 16px 12px 16px;
+  text-align: center;
   box-sizing: border-box;
   border-radius: 8px;
   transition: .2s;
@@ -19,6 +20,9 @@ const Title = styled('h3')`
   font-weight: normal;
   color: #19191D;
   margin-top: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 const Price = styled('h3')`
   font-size: 24px;
