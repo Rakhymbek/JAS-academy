@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromBasket } from "../store/actions/shopActions";
+import { OPEN_MODAL, removeFromBasket } from "../store/actions/shopActions";
 
 const Wrapper = styled("div")`
   padding: 10px;
@@ -123,6 +123,7 @@ export function BasketItem({ product, count, onAddToBasket }) {
 export function Basket({ onAddToBasket }) {
   const basket = useSelector((state) => state.shop.basket);
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
 
   function countAllItems(products) {
     return products.reduce((acc, next) => acc + next.count, 0);
@@ -133,6 +134,10 @@ export function Basket({ onAddToBasket }) {
       .reduce((acc, next) => acc + next.product.price * next.count, 0)
       .toFixed(2);
   }
+
+  const handleModalOpen = useCallback(() => {
+    dispatch({ type: OPEN_MODAL });
+  }, [dispatch]);
 
   return (
     <Wrapper>
@@ -178,6 +183,17 @@ export function Basket({ onAddToBasket }) {
                 alt="empty basket"
               />
             </div>
+          )}
+          {basket.length ? (
+            <Button
+              onClick={handleModalOpen}
+              style={{ marginTop: "auto" }}
+              variant="outlined"
+            >
+              Оформить заявку
+            </Button>
+          ) : (
+            ""
           )}
         </ProductItems>
       </SwipeableDrawer>

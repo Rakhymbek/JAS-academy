@@ -6,6 +6,9 @@ export const ADD_TO_BASKET = "shop/addToBasket";
 
 export const REMOVE_FROM_BASKET = "basket/removeFromBasket";
 
+export const OPEN_MODAL = "shop/openModal";
+export const CLOSE_MODAL = "shop/closeModal";
+
 export const fetchProducts = () => (dispatch) => {
   axios.get("https://fakestoreapi.com/products").then((res) => {
     dispatch({

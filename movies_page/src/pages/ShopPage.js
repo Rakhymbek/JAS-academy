@@ -8,6 +8,7 @@ import {
 } from "../store/actions/shopActions";
 import { ProductBlock } from "../components/ProductBlock";
 import { Basket } from "../components/Basket";
+import { OrderFormModal } from "../components/OrderFormModal";
 
 
 export function ShopPage() {
@@ -39,6 +40,7 @@ export function ShopPage() {
           </Grid>
         ))}
       </Grid>
+      <OrderFormModal />
     </Container>
   );
 }

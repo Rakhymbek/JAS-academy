@@ -1,5 +1,7 @@
 import {
   ADD_TO_BASKET,
+  CLOSE_MODAL,
+  OPEN_MODAL,
   REMOVE_FROM_BASKET,
   SET_PRODUCTS,
 } from "../actions/shopActions";
@@ -7,6 +9,7 @@ import {
 const initState = {
   products: [],
   basket: JSON.parse(localStorage.getItem("basket")) || [],
+  modalOpen: false
 };
 export function shop(state = initState, action) {
   const newState = { ...state };
@@ -29,22 +32,27 @@ export function shop(state = initState, action) {
       }
       break;
     case REMOVE_FROM_BASKET:
-     newState.basket.map((item) => {
-         console.log(item.count);
+      newState.basket.map((item) => {
+        console.log(item.count);
         if (item.product.id === action.payload) {
           if (item.count >= 2) {
-              item.count = item.count - 1;
-          }else {
-              if(item.count === 1) {
-                newState.basket = state.basket.filter(
-                    (item) => item.product.id !== action.payload
-                  );
-              }
+            item.count = item.count - 1;
+          } else {
+            if (item.count === 1) {
+              newState.basket = state.basket.filter(
+                (item) => item.product.id !== action.payload
+              );
+            }
           }
-          
         }
       });
       newState.basket = [...newState.basket];
+      break;
+    case OPEN_MODAL:
+      newState.modalOpen = true;
+      break;
+    case CLOSE_MODAL:
+      newState.modalOpen = false;
       break;
     default:
       return state;
