@@ -9,6 +9,7 @@ import {
 import { ProductBlock } from "../components/ProductBlock";
 import { Basket } from "../components/Basket";
 import { OrderFormModal } from "../components/OrderFormModal";
+import { Catalog } from "../components/Categories";
 
 
 export function ShopPage() {
@@ -28,7 +29,8 @@ export function ShopPage() {
   );
 
   return (
-    <Container>
+    <Container sx={{position: 'relative'}}>
+      <Catalog />
       <Basket onAddToBasket={handleAddToBasket} />
       <Grid container spacing={2}>
         {products.map((product) => (

@@ -5,6 +5,7 @@ import { charactersReducer } from "./reducers/charactersReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { shop } from "./reducers/shop";
+import { categories } from "./reducers/categories";
 
 export const store = createStore(
   combineReducers({
@@ -12,6 +13,7 @@ export const store = createStore(
     todos,
     charactersReducer,
     shop,
+    categories,
   }),
   composeWithDevTools(applyMiddleware(thunk))
 );
