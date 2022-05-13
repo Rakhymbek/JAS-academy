@@ -18,7 +18,20 @@ export function Catalog() {
   `;
 
   const CategoryItem = styled("p")`
-    font-size: 1rem;
+    text-transform: uppercase;
+    padding: 10px 30px;
+    color: #1976d2;
+    margin: 0;
+    text-align: center;
+    transition: all 0.2s;
+    font-weight: 600;
+    border-radius: 2px;
+    border-bottom: 2px solid white;
+    &:hover {
+      cursor: pointer;
+      border-bottom: 2px solid #757575;
+      background: #e9e9e9;
+    }
   `;
 
   useEffect(() => {
